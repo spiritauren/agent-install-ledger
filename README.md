@@ -1,5 +1,9 @@
 # Agent Install Ledger
 
+![Skill: Agent](https://img.shields.io/badge/Skill-Agent-111111?style=flat-square)
+![License: MIT](https://img.shields.io/badge/License-MIT-2457F5?style=flat-square)
+![Works with: Claude Code · Codex · any Skills harness](https://img.shields.io/badge/Works%20with-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20any%20Skills%20harness-6B5B95?style=flat-square)
+
 **Your agent can install anything. Make it keep the receipts.**
 
 A three-stage chain: **gate before → ledger after → review periodically.**
@@ -31,6 +35,38 @@ There is good tooling for each individual link:
 But each one covers a piece. **Nothing strings "interrogate before → register after → review periodically" into one chain — and nothing stops to ask the human before it deletes.**
 
 That chain is this repo.
+
+---
+
+## Install
+
+### One line
+
+```bash
+npx skills add https://github.com/spiritauren/agent-install-ledger --skill agent-install-ledger
+```
+
+### Or paste this to your agent
+
+```
+Install the skill agent-install-ledger. Clone
+https://github.com/spiritauren/agent-install-ledger into
+~/.claude/skills/agent-install-ledger, then confirm that SKILL.md and
+LEDGER.example.md are both present, and tell me the current commit.
+```
+
+### Or manually
+
+```bash
+git clone https://github.com/spiritauren/agent-install-ledger.git \
+  ~/.claude/skills/agent-install-ledger
+```
+
+No Skills support? Paste `SKILL.md` into your agent's system prompt, or into a project rule file (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`).
+
+**Storage is your choice.** The ledger can be a Markdown file, a spreadsheet, an issue tracker, a database. This rule governs the fields and the flow, not where you keep them.
+
+---
 
 ## Stage 1 — The gate
 
@@ -74,20 +110,44 @@ Note the two fields people leave out — **"Why it can go"** and **"Uninstall co
 
 A cache directory is garbage. The report that cache helped produce is not. Getting this line wrong once — deleting a month of work along with the tool that made it — is how people learn to never clean up again.
 
-## Install
+---
 
-Any agent harness that supports Skills:
+## The five lines this draws
 
-```bash
-# Claude Code
-mkdir -p ~/.claude/skills/install-ledger
-curl -o ~/.claude/skills/install-ledger/SKILL.md \
-  https://raw.githubusercontent.com/spiritauren/agent-install-ledger/main/SKILL.md
-```
+1. **Ask before, not after.** The gate runs *before* the install, so the answer can still be "no".
+2. **Measure, don't estimate.** `du` on the real thing. Vendor download sizes lie; dependency trees don't.
+3. **Write the reason while you still remember it.** "Why it can go" is a note to a future you who will disagree with today's "not needed".
+4. **Delete working files, keep deliverables.** The one irreversible mistake in this whole document.
+5. **Stop and ask the human before deleting.** Automating the discovery is fine. Automating the deletion is not.
 
-No Skills support? Paste `SKILL.md` into your agent's system prompt, or into a project rule file (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`).
+## Use it if / don't use it if
 
-**Storage is your choice.** The ledger can be a Markdown file, a spreadsheet, an issue tracker, a database. This rule governs the fields and the flow, not where you keep them. `LEDGER.example.md` is a synthetic example.
+**✅ Use it if** you run an agent with shell access on your own machine, and you have caught yourself wondering what half of your installed software is for.
+
+**❌ Don't use it if** you install software deliberately, rarely, and know what everything is. You already have this ledger — it's in your head.
+
+**Not covered:** reproducing an environment (`brew bundle dump`, `pip freeze`) — different job, better-solved. Security scanning of what you install — different gate, better-solved.
+
+---
+
+## FAQ
+
+**Haven't I got 200 things installed already? Do I backfill?**
+No. Start the ledger at your next install. Everything before it is exactly what a review is for — and the review does not need a complete ledger to be useful.
+
+**What stops the agent from just ignoring this?**
+Nothing. It is a rule, not a sandbox. It makes the right behaviour the path of least resistance. Pair it with whatever enforcement your harness gives you.
+
+**Where do I actually put the ledger?**
+Wherever you already look. Markdown file, spreadsheet, an issue, a database. The fields matter; the storage does not. `LEDGER.example.md` is a synthetic example.
+
+**Is keeping something forever a failure?**
+No. "Keep" is a legitimate outcome — the review exists so that keeping is a *decision* rather than an oversight. The failure mode isn't owning things. It's not knowing.
+
+**What if the agent installs something at 3am unattended?**
+It still writes the row. The ledger is most valuable for exactly those installs — the ones nobody was watching.
+
+---
 
 ## Files
 
@@ -104,12 +164,6 @@ No Skills support? Paste `SKILL.md` into your agent's system prompt, or into a p
 This is a rule for an agent, so it only works if the agent actually reads it. That means it has to live where the agent already looks — a skills directory, a system prompt, a project rule file. A rule nobody loads is a document, not a mechanism.
 
 Same goes for the review. If nobody ever says "review installs", stage 3 never runs and you are back to a pile. **The chain is only as good as its weakest trigger.**
-
-## Not covered
-
-- Package-manager-native inventory (`brew bundle dump`, `pip freeze`) — use those for *reproducing* an environment. This is about *accountability*.
-- Security scanning of what you install — that is a different gate, and a better-solved one.
-- Enforcement. Nothing here can stop a determined agent; it makes the right thing the path of least resistance.
 
 ## License
 

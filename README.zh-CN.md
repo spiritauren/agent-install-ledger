@@ -1,5 +1,9 @@
 # Agent Install Ledger · 安装台帐
 
+![Skill: Agent](https://img.shields.io/badge/Skill-Agent-111111?style=flat-square)
+![License: MIT](https://img.shields.io/badge/License-MIT-2457F5?style=flat-square)
+![Works with: Claude Code · Codex · any Skills harness](https://img.shields.io/badge/Works%20with-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20any%20Skills%20harness-6B5B95?style=flat-square)
+
 **你的 agent 什么都能装。让它记账。**
 
 一条三段链：**装前质询 → 装后台帐 → 定期复审。**
@@ -31,6 +35,38 @@ AI agent 现在随时能装东西：`pip install`、`brew install`、`npm instal
 但它们各占一块。**没有任何东西把「装前质询 → 装后台帐 → 定期复审」串成一条链——也没有任何东西在删除之前停下来问人。**
 
 那条链就是这个仓库。
+
+---
+
+## 安装
+
+### 一行命令
+
+```bash
+npx skills add https://github.com/spiritauren/agent-install-ledger --skill agent-install-ledger
+```
+
+### 或者，把这段话直接发给你的 Agent
+
+```
+帮我安装 agent-install-ledger 这个 skill。请把
+https://github.com/spiritauren/agent-install-ledger 克隆到
+~/.claude/skills/agent-install-ledger，装完确认 SKILL.md 和
+LEDGER.example.md 都在，然后告诉我当前是哪个 commit。
+```
+
+### 或者，手动
+
+```bash
+git clone https://github.com/spiritauren/agent-install-ledger.git \
+  ~/.claude/skills/agent-install-ledger
+```
+
+不支持 Skills？把 `SKILL.md` 全文贴进 agent 的 system prompt，或项目规则文件（`AGENTS.md`、`CLAUDE.md`、`.cursorrules`）。
+
+**存储随你。** 台帐可以是一个 Markdown 文件、一张表格、一个 issue、一个数据库。本规则只管**字段和流程**，不管你放在哪。
+
+---
 
 ## 第一段 · 闸门
 
@@ -74,20 +110,44 @@ AI agent 现在随时能装东西：`pip install`、`brew install`、`npm instal
 
 缓存目录是垃圾。那份缓存帮着做出来的报告不是。这条线错一次——连工具带一个月的工作一起删掉——人就会学会「再也不清理了」。
 
-## 安装
+---
 
-凡支持 Skills 的 agent 皆可：
+## 它划下的五条线
 
-```bash
-# Claude Code
-mkdir -p ~/.claude/skills/install-ledger
-curl -o ~/.claude/skills/install-ledger/SKILL.md \
-  https://raw.githubusercontent.com/spiritauren/agent-install-ledger/main/SKILL.zh-CN.md
-```
+1. **在装之前问，不在装之后解释。** 闸门跑在**安装前**，这样「不装」这个答案才还来得及。
+2. **量，不要估。** 对真东西跑 `du`。厂商写的下载体积会骗人，依赖树不会。
+3. **趁你还记得，把原因写下来。**「可删除原因」是写给未来的你——那个人会不同意今天的「不需要了」。
+4. **删工作文件，留成果物。** 整份文档里唯一一个不可逆的错误。
+5. **删之前，停下来问人。** 自动发现可以，自动删除不行。
 
-不支持 Skills？把 `SKILL.md` 全文贴进 agent 的 system prompt，或项目规则文件（`AGENTS.md`、`CLAUDE.md`、`.cursorrules`）。
+## 适合 / 不适合
 
-**存储随你。** 台帐可以是一个 Markdown 文件、一张表格、一个 issue、一个数据库。本规则只管**字段和流程**，不管你放在哪。合成示例见 `LEDGER.example.zh-CN.md`。
+**✅ 适合**：你在一台自己的机器上跑着有 shell 权限的 agent，而且你已经有过「这一堆装的东西到底是干嘛的」这种时刻。
+
+**❌ 不适合**：你装软件是有意为之、很少装、每样都清楚。**那你已经有这份台帐了——它在你脑子里。**
+
+**不覆盖**：复现环境（`brew bundle dump`、`pip freeze`）——不同的活儿，而且别人做得更好。对装进来的东西做安全扫描——不同的闸门，也有人做得更好。
+
+---
+
+## FAQ
+
+**我已经装了 200 样东西了，要补录吗？**
+不用。从下一次安装开始记。之前那些恰恰就是**复审要处理的对象**——而且复审不需要一份完整的台帐才有用。
+
+**有什么能拦住 agent 不遵守它？**
+没有。这是一条规则，不是一个沙箱。它只是让正确的行为成为阻力最小的那条路。真要有强制力，得配合你的 harness 本身能给的东西。
+
+**台帐到底放哪？**
+放你本来就会看的地方。Markdown 文件、表格、一个 issue、一个数据库都行。**字段是重点，存储不是。** 合成示例见 `LEDGER.example.md`。
+
+**一样东西永远留着，算失败吗？**
+不算。「留」是一个正当的结果——复审存在的意义，是让「留」变成一个**决定**，而不是一次疏忽。失败从来不是拥有东西，是**不知道**。
+
+**如果 agent 半夜没人看着时装了东西呢？**
+它照样得写那一行。**恰恰是这种安装，台帐最值钱**——因为当时没有人在看着。
+
+---
 
 ## 文件
 
@@ -104,12 +164,6 @@ curl -o ~/.claude/skills/install-ledger/SKILL.md \
 这是一条**给 agent 的规则**，所以只有 agent 真的读到它才管用。也就是说它必须放在 agent 本来就会看的地方——技能目录、system prompt、项目规则文件。**一条没人加载的规则是文档，不是机制。**
 
 复审同理。如果永远没人说「复审安装」，第三段就永远不会跑，你手里又变回一堆。**这条链的好坏，取决于它最弱的那个触发点。**
-
-## 不覆盖什么
-
-- 包管理器自带的清单（`brew bundle dump`、`pip freeze`）——那些是用来**复现环境**的。这里管的是**问责**。
-- 对装进来的东西做安全扫描——那是另一道闸门，而且别人做得更好。
-- 强制力。这里没有任何东西能拦住一个铁了心的 agent；它只是让正确的做法成为阻力最小的那条路。
 
 ## 许可
 
