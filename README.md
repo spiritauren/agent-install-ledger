@@ -28,11 +28,11 @@ There is good tooling for each individual link:
 
 | Link | Existing tools |
 |---|---|
-| Cleanup | Mole, Pearcleaner, Uninstall |
-| Dependency inventory | syft, Trivy |
-| Pre-install security gate | SkillSpector |
+| Cleanup | Mole, Pearcleaner (macOS) |
+| Dependency inventory | syft, Trivy (its SBOM mode) |
+| Pre-install security gate | SkillSpector (agent skills only) |
 
-But each one covers a piece. **Nothing strings "interrogate before → register after → review periodically" into one chain — and nothing stops to ask the human before it deletes.**
+But each one covers a piece. **I could not find a tool that strings "interrogate before → register after → review periodically" into a single chain — and none of the tools that delete *on an agent's own initiative* stops to ask the human first.** If you know of one, open an issue.
 
 That chain is this repo.
 
@@ -70,12 +70,13 @@ No Skills support? Paste `SKILL.md` into your agent's system prompt, or into a p
 
 ## Stage 1 — The gate
 
-Before installing, the agent must answer four questions. Any "no" means: do not install, find another way.
+Before installing, the agent must answer three questions. Any "no" means: do not install, find another way.
 
 1. **Do we actually need it?**
 2. **Is there a lighter substitute?** (user-level beats system-level; small beats large)
-3. **Can it be removed later?** (temporary use → `pip install --user`, cache dirs)
-4. **Is it registered?** (write the entry the moment it lands — do not defer)
+3. **Can you write its uninstall command right now?** No command means you do not yet know what you are installing.
+
+Then, the moment it lands: **write the row.** The gate decides whether to install; the row is what proves the install is over.
 
 ## Stage 2 — The ledger
 
@@ -89,7 +90,7 @@ One row per install. Eleven fields.
 | Why | Which project or task needed it |
 | Project | The related project or task |
 | Location | Absolute path |
-| Footprint | Real usage including dependencies and caches (`du`) |
+| Footprint | Disk it actually occupies: `du -sh` on the artifact **plus** the dependencies it pulled in and its own cache directories |
 | Lifetime | temporary / phased / long-term |
 | Why it can go | Why it is safe to delete now (filled at review time) |
 | Uninstall command | How to remove it thoroughly |
@@ -102,7 +103,7 @@ Note the two fields people leave out — **"Why it can go"** and **"Uninstall co
 1. **Scan** — read the ledger and re-measure every item with `du`. The ledger is always stale.
 2. **Report** — per item: what it does, how much it takes, whether its project is finished, keep or remove, and why.
 3. **Ask** — the human decides. Nothing is deleted before that.
-4. **Delete thoroughly** — the artifact *plus* the working files it generated (caches, temp data). **Keep the deliverables.** Send it to the system trash, not `rm`.
+4. **Delete thoroughly** — the artifact *plus* the working files it generated (caches, temp data). **Keep the deliverables.** Send it to the system trash, not `rm` — `trash` on macOS 15+, `gio trash` or your platform's equivalent elsewhere.
 
 ### The line that matters
 
@@ -110,14 +111,22 @@ Note the two fields people leave out — **"Why it can go"** and **"Uninstall co
 
 A cache directory is garbage. The report that cache helped produce is not. Getting this line wrong once — deleting a month of work along with the tool that made it — is how people learn to never clean up again.
 
+Two buckets are obvious. The third is where people get hurt:
+
+- **Deliverables** — keep.
+- **Caches and temp files** — delete.
+- **Everything else** — the script that produced the deliverable, a tool's own data directory, the source CSV behind a chart. **List these out and confirm each one.** The test is not "is it a final output" but **"can it be regenerated — and is this the only copy?"**
+
 ---
 
 ## The five lines this draws
 
+Three of these are this repo's own. Two are long-standing practice — they are here because a rule is what makes them actually happen on every install, rather than when someone remembers.
+
 1. **Ask before, not after.** The gate runs *before* the install, so the answer can still be "no".
-2. **Measure, don't estimate.** `du` on the real thing. Vendor download sizes lie; dependency trees don't.
+2. **Measure, don't estimate.** `du` on the real thing — and remember `du` reports the artifact only. Dependencies and caches are counted separately, on purpose. Vendor download sizes lie; your own sum does not.
 3. **Write the reason while you still remember it.** "Why it can go" is a note to a future you who will disagree with today's "not needed".
-4. **Delete working files, keep deliverables.** The one irreversible mistake in this whole document.
+4. **Delete working files, keep deliverables.** The one mistake in this whole document that emptying the trash turns irreversible.
 5. **Stop and ask the human before deleting.** Automating the discovery is fine. Automating the deletion is not.
 
 ## Use it if / don't use it if
@@ -154,9 +163,9 @@ It still writes the row. The ledger is most valuable for exactly those installs 
 | File | What it is |
 |---|---|
 | `SKILL.md` | The rule, for the agent to read (English) |
-| `SKILL.zh-CN.md` | 同上，中文版 |
+| `SKILL.zh-CN.md` | Same rule, Chinese version |
 | `LEDGER.example.md` | A synthetic ledger example (English) |
-| `LEDGER.example.zh-CN.md` | 合成示例，中文版 |
+| `LEDGER.example.zh-CN.md` | Synthetic ledger example, Chinese version |
 | `README.md` / `README.zh-CN.md` | This page, in both languages |
 
 ## A caution
