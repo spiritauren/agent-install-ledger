@@ -1,4 +1,4 @@
-# Install Ledger — example
+# Agent Install Ledger — example
 
 > **Synthetic.** Every row below was invented to demonstrate the field format.
 > Copy the file, delete the rows, and start your own.

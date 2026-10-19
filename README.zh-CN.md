@@ -1,9 +1,8 @@
-# 安装台帐 · Install Ledger
+# Agent Install Ledger · 安装台帐
 
-**你的 agent 什么都能装。让它留下收据。**
+**你的 agent 什么都能装。让它记账。**
 
 一条三段链：**装前质询 → 装后台帐 → 定期复审。**
-其中第三段——**在删东西之前停下来问人**——几乎没人做。
 
 **[English →](README.md)**
 
@@ -83,7 +82,7 @@ AI agent 现在随时能装东西：`pip install`、`brew install`、`npm instal
 # Claude Code
 mkdir -p ~/.claude/skills/install-ledger
 curl -o ~/.claude/skills/install-ledger/SKILL.md \
-  https://raw.githubusercontent.com/spiritauren/install-ledger/main/SKILL.zh-CN.md
+  https://raw.githubusercontent.com/spiritauren/agent-install-ledger/main/SKILL.zh-CN.md
 ```
 
 不支持 Skills？把 `SKILL.md` 全文贴进 agent 的 system prompt，或项目规则文件（`AGENTS.md`、`CLAUDE.md`、`.cursorrules`）。

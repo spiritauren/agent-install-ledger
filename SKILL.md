@@ -1,9 +1,9 @@
 ---
-name: install-ledger
+name: agent-install-ledger
 description: Software install ledger. Before an agent installs anything on the machine (pip / brew / npm / a downloaded binary / playwright install / a skill dependency), it must first pass a four-question gate and immediately register the install in a ledger afterwards. The user can request a review at any time; the agent reports each item's real footprint and a keep-or-remove recommendation, and deletes nothing until the user confirms. Load when an agent is about to run any install, or when the user says "review installs", "install ledger", "clean up disk", "what's installed", or "install X".
 ---
 
-# Install Ledger
+# Agent Install Ledger
 
 A chain for the "my agent installs things on my machine" problem:
 **gate before → ledger after → review periodically.**

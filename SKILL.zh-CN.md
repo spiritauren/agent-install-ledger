@@ -1,9 +1,9 @@
 ---
-name: install-ledger
+name: agent-install-ledger
 description: 软件安装台帐。只要 agent 要在电脑上安装任何东西（pip / brew / npm / 下载二进制 / playwright install / 装 skill 依赖等），安装前必须先过四问闸门、安装后必须立刻登记台帐。用户可不定期发起复审，agent 报告每项的真实占用与去留建议，用户确认后才删除。当 agent 即将执行任何安装，或用户说「复审安装 / 安装台帐 / 清理硬盘 / 看看装了什么 / 装个 XX」时加载。
 ---
 
-# 安装台帐
+# Agent Install Ledger · 安装台帐
 
 给「我的 agent 在电脑上乱装东西」这件事，装一条链：
 **装前质询 → 装后台帐 → 定期复审。**

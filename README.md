@@ -1,9 +1,8 @@
-# Install Ledger
+# Agent Install Ledger
 
 **Your agent can install anything. Make it keep the receipts.**
 
 A three-stage chain: **gate before → ledger after → review periodically.**
-It is the third stage — stopping to ask a human — that almost nobody builds.
 
 **[中文版 →](README.zh-CN.md)**
 
@@ -83,7 +82,7 @@ Any agent harness that supports Skills:
 # Claude Code
 mkdir -p ~/.claude/skills/install-ledger
 curl -o ~/.claude/skills/install-ledger/SKILL.md \
-  https://raw.githubusercontent.com/spiritauren/install-ledger/main/SKILL.md
+  https://raw.githubusercontent.com/spiritauren/agent-install-ledger/main/SKILL.md
 ```
 
 No Skills support? Paste `SKILL.md` into your agent's system prompt, or into a project rule file (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`).
