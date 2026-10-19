@@ -10,7 +10,7 @@ description: Software install ledger. Before an agent installs anything on the m
 A chain for the "my agent installs things on my machine" problem:
 **gate before → ledger after → review periodically.**
 
-Most tooling covers one link. This covers the chain, and it stops to ask a human before deleting.
+Cleanup tools remove files. Dependency tools produce inventories. Security scanners check packages. None of them records **what a thing is, why it is here, or whether it can go** — or says when "think before you install" should happen.
 
 ## Purpose
 

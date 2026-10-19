@@ -4,9 +4,9 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-2457F5?style=flat-square)
 ![Works with: Claude Code · Codex · any Skills harness](https://img.shields.io/badge/Works%20with-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20any%20Skills%20harness-6B5B95?style=flat-square)
 
-**Your agent can install anything. Make it keep the receipts.**
+**Your agent installs things faster than you can keep track. A year later, nobody can say what any of it is for.**
 
-A three-stage chain: **gate before → ledger after → review periodically.**
+**Make it keep the receipts.** A three-stage chain: **gate before → ledger after → review periodically.**
 
 **[中文版 →](README.zh-CN.md)**
 
@@ -22,17 +22,9 @@ An AI agent can install things at any moment: `pip install`, `brew install`, `np
 
 The problem was never the installing. It is that **nobody kept the receipts.**
 
-## Why a chain, not a tool
+## It covers one column
 
-There is good tooling for each individual link:
-
-| Link | Existing tools |
-|---|---|
-| Cleanup | Mole, Pearcleaner (macOS) |
-| Dependency inventory | syft, Trivy (its SBOM mode) |
-| Pre-install security gate | SkillSpector (agent skills only) |
-
-But each one covers a piece. **I could not find a tool that strings "interrogate before → register after → review periodically" into a single chain — and none of the tools that delete *on an agent's own initiative* stops to ask the human first.** If you know of one, open an issue.
+Cleanup tools remove files; dependency tools produce inventories; security scanners check packages. **What none of them keeps is what a thing is, why it is here, and whether it can go** — or when "think before you install" and "look again periodically" should happen.
 
 That chain is this repo.
 
@@ -135,7 +127,7 @@ Three of these are this repo's own. Two are long-standing practice — they are 
 
 **❌ Don't use it if** you install software deliberately, rarely, and know what everything is. You already have this ledger — it's in your head.
 
-**Not covered:** reproducing an environment (`brew bundle dump`, `pip freeze`) — different job, better-solved. Security scanning of what you install — different gate, better-solved.
+**Not covered:** reproducing an environment (`brew bundle dump`, `pip freeze`). Different job, well-solved — a ledger is not a lockfile.
 
 ---
 
